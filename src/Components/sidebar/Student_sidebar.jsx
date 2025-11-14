@@ -1,5 +1,17 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { 
+  HiOutlineHome,
+  HiOutlineClipboardList,
+  HiOutlineChatAlt2,
+  HiOutlineClock,
+  HiOutlineBookOpen,
+  HiOutlineColorSwatch,
+  HiOutlineUsers,
+  HiOutlineLogout,
+  HiOutlineUser
+} from "react-icons/hi";
+import logo from "../../assets/Images/logo.png";
 
 const Student_sidebar = () => {
   const navigate = useNavigate();
@@ -10,54 +22,140 @@ const Student_sidebar = () => {
     navigate("/login");
   };
 
-  const linkClass = ({ isActive }) =>
-    `px-6 py-3 rounded transition-all duration-200 ${
-      isActive ? "bg-sky-500 text-white" : "text-white hover:bg-sky-500 "
-    }`;
-
   return (
-    <aside className="w-72 bg-sky-400 text-white h-screen flex flex-col shadow-lg">
-      <div className="p-8 text-3xl font-bold text-left">MindEase</div>
+    <aside className="w-72 bg-sky-300 text-white flex flex-col shadow-xl">
+      {/* Logo + Title Section */}
+      <div className="p-6 flex flex-col items-center">
+        <img
+          src={logo}
+          alt="MindEase Logo"
+          className="w-20 h-20 mb-3"
+        />
+        <h1 className="text-2xl font-bold text-black">MindEase</h1>
+      </div>
 
-      <nav className="flex flex-col mt-10 flex-1 text-lg ">
-        <NavLink to="/student-dashboard" className={linkClass}>
+      {/* Navigation Menu */}
+      <nav className="flex-1 px-4 py-6 space-y-2 text-lg">
+        <NavLink
+          to="/student-dashboard"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 group ${
+              isActive 
+                ? "bg-white text-sky-600 shadow-lg" 
+                : "hover:bg-sky-200 text-black"
+            }`
+          }
+        >
+          <HiOutlineHome className="w-5 h-5 mr-3 group-[.active]:text-sky-600" />
           Dashboard
         </NavLink>
-        <NavLink to="/questionnaire" className={linkClass}>
-          Questionnaire
+
+        <NavLink
+          to="/questionnaire"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 group ${
+              isActive 
+                ? "bg-white text-sky-600 shadow-lg" 
+                : "hover:bg-sky-200 text-black"
+            }`
+          }
+        >
+          <HiOutlineClipboardList className="w-5 h-5 mr-3 group-[.active]:text-sky-600" />
+          Wellness Check
         </NavLink>
+
         <NavLink
           to="/mindbot"
-          className="px-6 py-3 rounded hover:bg-sky-500 transition"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 group ${
+              isActive 
+                ? "bg-white text-sky-600 shadow-lg" 
+                : "hover:bg-sky-200 text-black"
+            }`
+          }
         >
+          <HiOutlineChatAlt2 className="w-5 h-5 mr-3 group-[.active]:text-sky-600" />
           MindBot
         </NavLink>
+
         <NavLink
           to="/session"
-          className="px-6 py-3 rounded hover:bg-sky-500 transition"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 group ${
+              isActive 
+                ? "bg-white text-sky-600 shadow-lg" 
+                : "hover:bg-sky-200 text-black"
+            }`
+          }
         >
+          <HiOutlineClock className="w-5 h-5 mr-3 group-[.active]:text-sky-600" />
           Sessions
         </NavLink>
-        <NavLink to="/resources" className={linkClass}>
-          Resources Library
+
+        <NavLink
+          to="/stdresources"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 group ${
+              isActive 
+                ? "bg-white text-sky-600 shadow-lg" 
+                : "hover:bg-sky-200 text-black"
+            }`
+          }
+        >
+          <HiOutlineBookOpen className="w-5 h-5 mr-3 group-[.active]:text-sky-600" />
+          Resources
         </NavLink>
-        <NavLink to="/feedback" className={linkClass}>
-          My Feedback
+
+        <NavLink
+          to="/mandala"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 group ${
+              isActive 
+                ? "bg-white text-sky-600 shadow-lg" 
+                : "hover:bg-sky-200 text-black"
+            }`
+          }
+        >
+          <HiOutlineColorSwatch className="w-5 h-5 mr-3 group-[.active]:text-sky-600" />
+          Mandala Art
         </NavLink>
-        <NavLink to="/mandala" className={linkClass}>
-          Mandala Colouring
-        </NavLink>
-        <NavLink to="/chatroom" className={linkClass}>
+
+        <NavLink
+          to="/chatroom"
+          className={({ isActive }) =>
+            `flex items-center px-4 py-3 rounded-lg transition-all duration-200 group ${
+              isActive 
+                ? "bg-white text-sky-600 shadow-lg" 
+                : "hover:bg-sky-200 text-black"
+            }`
+          }
+        >
+          <HiOutlineUsers className="w-5 h-5 mr-3 group-[.active]:text-sky-600" />
           Chat Room
         </NavLink>
       </nav>
 
-      <button
-        onClick={handleLogout}
-        className="mt-auto mb-8 mx-6 bg-white text-blue-600 font-semibold px-4 py-2 rounded hover:bg-gray-200 transition-colors"
-      >
-        Logout
-      </button>
+      {/* User Profile Section */}
+      <div className="px-4 py-3 border-t border-sky-400">
+        <div className="flex items-center px-3 py-2 text-gray-700">
+          <HiOutlineUser className="w-6 h-6 mr-3 text-sky-600" />
+          <div>
+            <p className="text-sm font-medium">Student</p>
+            <p className="text-xs text-gray-600">Student Account</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Logout Section */}
+      <div className="p-4 border-t border-sky-500">
+        <button
+          onClick={handleLogout}
+          className="flex items-center justify-center w-full bg-white text-sky-600 font-semibold px-4 py-3 rounded-lg hover:bg-gray-100 transition-all duration-200 shadow-sm hover:shadow-md"
+        >
+          <HiOutlineLogout className="w-5 h-5 mr-2" />
+          Logout
+        </button>
+      </div>
     </aside>
   );
 };

@@ -102,8 +102,8 @@ const MindBot = () => {
 
 
   const quickQuestions = [
-    { question: "Ways to stay motivated daily", icon: "🔬" },
-    { question: "How to handle academic pressure?", icon: "📊" },
+    { question: "Ways to stay motivated daily",  },
+    { question: "How to handle academic pressure?",},
   ];
 
   return (
@@ -156,7 +156,7 @@ const MindBot = () => {
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              {tab === "chat" ? "💬 Chat" : "📚 History"}
+              {tab === "chat" ? " Chat" : " History"}
               {activeTab === tab && (
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500"></div>
               )}
@@ -278,7 +278,7 @@ const MindBot = () => {
                     <button
                       type="submit"
                       disabled={loading || !prompt.trim() || isTyping}
-                      className="absolute right-2 top-1.5 bg-gradient-to-r from-blue-500 to-sky-400 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-medium shadow-lg hover:shadow-xl text-sm"
+                      className="absolute right-2 top-1.5 bg-gradient-to-r from-blue-400 to-sky-300 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-medium shadow-lg hover:shadow-xl text-sm"
                     >
                       {loading ? (
                         <div className="flex items-center">
@@ -310,7 +310,6 @@ const MindBot = () => {
                 {/* Quick Suggestions */}
                 <div>
                   <h3 className="font-medium text-gray-700 mb-3 flex items-center text-lg">
-                    <span className="mr-2">⚡</span>
                     Quick Suggestions
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -343,7 +342,6 @@ const MindBot = () => {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-xl font-bold text-gray-800 flex items-center">
-                    <span className="mr-2">📚</span>
                     Question History
                   </h2>
                   <p className="text-gray-600 text-xs mt-1">

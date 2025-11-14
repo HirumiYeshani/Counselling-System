@@ -166,11 +166,11 @@ const Users = ({ onUpdateCounts }) => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-[#C4B5FD] to-[#38BDF8] rounded-2xl shadow-lg p-6 text-black">
+            <div className="bg-sky-400 rounded-2xl shadow-lg p-6 text-white">
               <div className="text-center">
-                <div className="text-3xl font-bold mb-2">{filteredUsers.length}</div>
-                <div className="text-black">Currently Showing</div>
-                <div className="text-sm text-black mt-2">{filter === 'All' ? 'All Users' : filter + 's'}</div>
+                <div className="text-5xl font-bold mb-2">{filteredUsers.length}</div>
+                <div className="text-white text-lg">Currently Showing</div>
+                <div className="text-lg text-white mt-2">{filter === 'All' ? 'All Users' : filter + 's'}</div>
               </div>
             </div>
           </div>
@@ -253,12 +253,12 @@ const Users = ({ onUpdateCounts }) => {
                         <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
                           <button
                             onClick={() => handleDeleteUser(user._id)}
-                            className="flex-1 bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2"
+                            className="flex-1 bg-sky-400 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
-                            Delete
+                            Remove
                           </button>
                         </div>
                       </div>

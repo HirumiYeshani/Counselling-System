@@ -36,6 +36,20 @@ const QuestionnairePage = () => {
   const handleNext = () => currentStep < questions.length && setCurrentStep(currentStep + 1);
   const handlePrev = () => currentStep > 0 && setCurrentStep(currentStep - 1);
 
+  const handleResourceClick = (resource) => {
+    if (resource.link) {
+      // Check if link has protocol, add if missing
+      const fullLink = resource.link.startsWith('http') 
+        ? resource.link 
+        : `https://${resource.link}`;
+      
+      window.open(fullLink, '_blank', 'noopener,noreferrer');
+    } else {
+      console.warn('No link available for resource:', resource.title);
+      alert(`No link available for: ${resource.title}`);
+    }
+  };
+
   const handleSubmit = async () => {
     for (const q of questions) if (!answers[q._id]) return alert(`Please answer: ${q.text}`);
     if (!finalFeeling) return alert("Please enter your overall feeling.");
@@ -59,16 +73,29 @@ const QuestionnairePage = () => {
     }
   };
 
+  // Debug resources when submission result changes
+  useEffect(() => {
+    if (submissionResult?.recommendedResources) {
+      console.log("Recommended Resources:", submissionResult.recommendedResources);
+      submissionResult.recommendedResources.forEach((resource, index) => {
+        console.log(`Resource ${index + 1}:`, {
+          title: resource.title,
+          link: resource.link,
+          hasLink: !!resource.link,
+          linkType: typeof resource.link
+        });
+      });
+    }
+  }, [submissionResult]);
+
   return (
-    <div className="h-screen flex overflow-hidden" style={{ backgroundColor: colors.lightBg }}>
+    <div className="h-screen flex overflow-hidden" >
       <Student_sidebar />
       <div className="flex-1 flex flex-col p-6 sm:p-10 h-full overflow-auto">
         {/* Header */}
         <div 
-          className="rounded-2xl text-white p-8 mb-8 shadow-lg"
-          style={{ 
-            background: `linear-gradient(135deg, ${colors.secondaryDark}, ${colors.secondary})`
-          }}
+          className="rounded-2xl text-black bg-sky-300 p-8 mb-8 shadow-lg"
+       
         >
           <h1 className="text-3xl font-bold">Hi {user?.name || "Student"}, let's check in</h1>
           <p className="mt-2 text-lg opacity-90">Answer honestly to get the best guidance.</p>
@@ -84,10 +111,9 @@ const QuestionnairePage = () => {
               </div>
               <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
                 <div 
-                  className="h-2.5 rounded-full transition-all duration-300"
+                  className="h-2.5 rounded-full transition-all duration-300 bg-sky-300"
                   style={{ 
                     width: `${((currentStep + 1) / (questions.length + 1)) * 100}%`,
-                    background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`
                   }}
                 ></div>
               </div>
@@ -209,7 +235,7 @@ const QuestionnairePage = () => {
             </div>
 
             {/* Recommended Resources - Horizontal Layout */}
-            {submissionResult.recommendedResources.length > 0 && (
+            {submissionResult.recommendedResources && submissionResult.recommendedResources.length > 0 ? (
               <div className="flex-1 min-h-0 flex flex-col">
                 <div className="text-center mb-10">
                   <h3 className="text-2xl font-light text-gray-800 mb-3">Curated Support Resources</h3>
@@ -224,7 +250,8 @@ const QuestionnairePage = () => {
                     {submissionResult.recommendedResources.map((r, index) => (
                       <div
                         key={r._id} 
-                        className="group relative flex-shrink-0 w-80 bg-gradient-to-b from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-gray-300 transition-all duration-500 hover:shadow-lg hover:scale-105"
+                        className="group relative flex-shrink-0 w-80 bg-gradient-to-b from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-gray-300 transition-all duration-500 hover:shadow-lg hover:scale-105 cursor-pointer"
+                        onClick={() => handleResourceClick(r)}
                       >
                         <div className="p-6 h-full flex flex-col">
                           {/* Number Badge */}
@@ -239,17 +266,10 @@ const QuestionnairePage = () => {
                           
                           {/* Content */}
                           <div className="flex-1 flex flex-col min-h-0">
-                            <a 
-                              href={r.link} 
-                              target="_blank" 
-                              rel="noreferrer" 
-                              className="no-underline group-hover:underline transition-all mb-3"
-                            >
-                              <h4 className="text-xl font-normal text-gray-800 leading-tight line-clamp-2" 
-                                  style={{ color: colors.secondaryDark }}>
-                                {r.title}
-                              </h4>
-                            </a>
+                            <h4 className="text-xl font-normal text-gray-800 leading-tight line-clamp-2 mb-3" 
+                                style={{ color: colors.secondaryDark }}>
+                              {r.title}
+                            </h4>
                             <p className="text-gray-600 leading-relaxed text-sm flex-1 overflow-hidden line-clamp-3 mb-4">
                               {r.description}
                             </p>
@@ -261,11 +281,13 @@ const QuestionnairePage = () => {
                                       backgroundColor: colors.primary + '15',
                                       color: colors.secondaryDark
                                     }}>
-                                <span>Explore</span>
-                                <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" 
-                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
+                                <span>{r.link ? "Explore Resource" : "No Link Available"}</span>
+                                {r.link && (
+                                  <svg className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" 
+                                       fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                  </svg>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -274,10 +296,26 @@ const QuestionnairePage = () => {
                         {/* Hover Effect Border */}
                         <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-opacity-20 transition-all duration-300"
                              style={{ borderColor: colors.primary }}></div>
+                        
+                        {/* Show indicator if no link */}
+                        {!r.link && (
+                          <div className="absolute top-3 right-3 bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">
+                            No Link
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
                 </div>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-400 text-6xl mb-4">📚</div>
+                <h3 className="text-xl font-light text-gray-600 mb-2">No Resources Recommended</h3>
+                <p className="text-gray-500 max-w-md mx-auto">
+                  Based on your positive responses, no additional resources are needed at this time. 
+                  Keep up the great work!
+                </p>
               </div>
             )}
           </div>

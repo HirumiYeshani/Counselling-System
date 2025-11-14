@@ -19,6 +19,7 @@ import ChatRoom from "./Pages/student/ChatRoom";
 import CounselorChatRoom from "./Pages/counselor/CounselorChatRoom";
 import MindBot from "./Pages/student/MindBot";
 import Session from "./Pages/student/Session";
+import ResourcesLibrary from "./Pages/student/ResourcesLibrary";
 
 // PrivateRoute component with optional role checking
 const PrivateRoute = ({ children, role }) => {
@@ -45,10 +46,11 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/questionnaire" element={<Questionnaire />} />
         <Route path="/mandala" element={<MandalaColouring />} />
-        <Route path="/resources" element={<Resources />} />
+        <Route path="/stdresources" element={<ResourcesLibrary/>} />
         <Route path="/chatroom" element={<ChatRoom />} />
         <Route path="/mindbot" element={<MindBot />} />
         <Route path="/session" element={<Session/>} />
+
 
         {/* Student Routes */}
         <Route
@@ -85,6 +87,7 @@ function App() {
             </PrivateRoute>
           }
         />
+      
         <Route
           path="/resources"
           element={
@@ -101,6 +104,7 @@ function App() {
             </PrivateRoute>
           }
         />
+     
 
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" />} />

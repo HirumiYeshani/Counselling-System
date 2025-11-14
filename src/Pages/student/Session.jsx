@@ -231,7 +231,7 @@ const StudentSessions = () => {
               <h1 className="text-3xl font-bold text-gray-800">My Counseling Sessions</h1>
               <p className="text-gray-600 mt-1">Welcome, {studentName || "Student"}</p>
               <div className="flex items-center gap-2 mt-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                 <span className="text-xs text-gray-500">Auto-updating every 5 seconds</span>
               </div>
             </div>
@@ -378,7 +378,7 @@ const StudentSessions = () => {
                         <span 
                           className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                             session.status === "Completed" 
-                              ? "bg-green-100 text-green-800"
+                              ? "bg-blue-100 text-blue-800"
                               : session.status === "Cancelled"
                               ? "bg-red-100 text-red-800"
                               : "bg-blue-100 text-blue-800"
@@ -411,7 +411,7 @@ const StudentSessions = () => {
                         {session.mode === "Real-time" && session.status === "Scheduled" && session.zoomMeeting && (
                           <button
                             onClick={() => joinZoomMeeting(session)}
-                            className="flex-1 bg-green-500 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-green-600 transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2"
+                            className="flex-1 bg-sky-400 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-600 transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -506,15 +506,15 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-sky-400 text-white p-6">
+        <div className="bg-sky-400 text-white p-6 flex-shrink-0">
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-2xl font-bold">
                 {session.status === "Completed" ? "Viewing Session" : "Active Session"}
               </h2>
-              <p className="text-green-100">
+              <p className="text-blue-100">
                 With {session.counselor?.name || "Counselor"} - {session.topic}
               </p>
               <div className="text-sm text-sky-100 mt-1">
@@ -531,7 +531,7 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 flex-shrink-0">
           <nav className="flex -mb-px">
             {["chat", "zoom", "resources", "goals", "action"].map((tab) => (
               <button
@@ -549,12 +549,12 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
           </nav>
         </div>
 
-        {/* Content */}
-        <div className="p-6 overflow-auto">
+        {/* Content - Fixed height container */}
+        <div className="flex-1 min-h-0 p-6 overflow-auto">
           {/* Chat Tab */}
           {activeTab === "chat" && (
-            <div className="space-y-4">
-              <div className="bg-gray-50 rounded-lg p-4 h-64 overflow-y-auto">
+            <div className="space-y-4 h-full flex flex-col">
+              <div className="bg-gray-50 rounded-lg p-4 flex-1 overflow-y-auto min-h-0">
                 {session.chatMessages?.map((msg, index) => (
                   <div
                     key={msg._id || index}
@@ -589,14 +589,14 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
               
               {/* Chat input - only for active sessions */}
               {session.status === "Scheduled" && (
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-shrink-0">
                   <input
                     type="text"
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && onSendMessage()}
                     placeholder="Type your message to counselor..."
-                    className="flex-1 border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="flex-1 border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     disabled={isSendingMessage}
                   />
                   <button
@@ -613,10 +613,10 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
 
           {/* Zoom Tab */}
           {activeTab === "zoom" && (
-            <div className="space-y-4">
+            <div className="space-y-4 h-full overflow-y-auto">
               {session.zoomMeeting ? (
                 <div className="space-y-4">
-                  <div className="bg-purple-50 border border-green-200 rounded-xl p-4">
+                  <div className="bg-purple-50 border border-blue-200 rounded-xl p-4">
                     <h3 className="font-semibold text-blue-800 mb-2">Zoom Meeting Information</h3>
                     <div className="space-y-2 text-sm">
                       {session.zoomMeeting.password && (
@@ -663,7 +663,7 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
 
           {/* Resources Tab */}
           {activeTab === "resources" && (
-            <div className="space-y-4 h-[490px]">
+            <div className="space-y-4 h-full overflow-y-auto">
               {session.resources && session.resources.length > 0 ? (
                 session.resources.map((resource, index) => (
                   <div key={index} className="border border-gray-200 rounded-xl p-4">
@@ -688,9 +688,9 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
 
           {/* Goals Tab */}
           {activeTab === "goals" && (
-            <div className="space-y-4">
+            <div className="space-y-4 h-full overflow-y-auto">
               {session.goals ? (
-                <div className="bg-purple-50 border  rounded-xl p-4">
+                <div className="bg-purple-50 border rounded-xl p-4">
                   <h3 className="font-semibold text-blue-800 mb-2">Session Goals:</h3>
                   <p className="text-blue-700 whitespace-pre-wrap">{session.goals}</p>
                 </div>
@@ -702,7 +702,7 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
 
           {/* Action Plan Tab */}
           {activeTab === "action" && (
-            <div className="space-y-4">
+            <div className="space-y-4 h-full overflow-y-auto">
               {session.actionPlan ? (
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
                   <h3 className="font-semibold text-blue-800 mb-2">Action Plan:</h3>
@@ -724,7 +724,7 @@ const StudentSessionView = ({ session, onClose, onSendMessage, chatMessage, setC
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 p-6 bg-gray-50">
+        <div className="border-t border-gray-200 p-6 bg-gray-50 flex-shrink-0">
           <button
             onClick={onClose}
             className="bg-blue-700 text-white px-6 py-2 rounded-xl hover:bg-blue-800 transition-colors"
